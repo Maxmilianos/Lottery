@@ -1,0 +1,24 @@
+coins:
+  material: DIAMOND
+  display-name: '&a60 Coins'
+  lore:
+  - '&aWin 60 Coins!'
+  chance: 20.0
+  commands:
+  - coins add %playername% 60
+diamond_sword:
+  material: DIAMOND_SWORD
+  display-name: '&aDiamond sword'
+  lore:
+  - '&aWin one Diamond Sword'
+  chance: 10.0
+  commands:
+  - give %playername% minecraft:diamond_sword
+iron_sword:
+  material: IRON_SWORD
+  display-name: '&aIron sword'
+  lore:
+  - '&aWin one Iron Sword'
+  chance: 20.0
+  commands:
+  - give %playername% minecraft:iron_sword

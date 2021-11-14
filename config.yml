@@ -1,0 +1,13 @@
+database:
+  type: yml
+  mysql:
+    hostname: localhost
+    user: username
+    password: password
+    database: database
+settings:
+  time-to-kick: 30
+message:
+  prefix: '&8[&aLottery&8] &7'
+  inventory:
+    name: '&aLottery'
