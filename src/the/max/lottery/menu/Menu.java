@@ -137,19 +137,19 @@ public class Menu {
 		_owner.updateInventory();
 	}
 	
-	private void glassRainbow(boolean paramBoolean) {
-		RandomCollection localRandomCollection = new RandomCollection();
-	    localRandomCollection.add(50.0D, 2);
-	    localRandomCollection.add(50.0D, 4);
-	    localRandomCollection.add(50.0D, 5);
-	    localRandomCollection.add(50.0D, 1);
-	    localRandomCollection.add(50.0D, 3);
-	    localRandomCollection.add(50.0D, 6);
-	    int i = ((Integer)localRandomCollection.next()).intValue();
+	private void glassRainbow(boolean v) {
+		RandomCollection randomCollection = new RandomCollection();
+		randomCollection.add(50.0D, 2);
+		randomCollection.add(50.0D, 4);
+		randomCollection.add(50.0D, 5);
+		randomCollection.add(50.0D, 1);
+		randomCollection.add(50.0D, 3);
+		randomCollection.add(50.0D, 6);
+	    int i = ((Integer)randomCollection.next()).intValue();
 	    for (int j = 0; j < _inv.getSize(); j++) {
 	    	if ((j != 10) && (j != 11) && (j != 12) && (j != 13) && (j != 14) && (j != 15) && (j != 16) && (j != 4) && (j != 22)) {
-	    		if (paramBoolean) {
-	    			int k = ((Integer)localRandomCollection.next()).intValue();
+	    		if (v) {
+	    			int k = ((Integer)randomCollection.next()).intValue();
 	    			_inv.setItem(j, getGlass(" ", 1, (byte)k));
 	    		} else {
 	    			_inv.setItem(j, getGlass(" ", 1, (byte)i));
