@@ -17,6 +17,7 @@ import the.max.lottery.config.Config;
 import the.max.lottery.database.Database;
 import the.max.lottery.listeners.Listeners;
 import the.max.lottery.menu.Menu;
+import the.max.lottery.placeholders.*;
 
 public class Lottery  extends JavaPlugin {
 
@@ -26,11 +27,11 @@ public class Lottery  extends JavaPlugin {
 	
 	public Config _config, _players, _rewards;
 	
-	public Boolean sql = false;
+	public Boolean _sql = false;
 	
 	public Database _db;
 	
-	public String _prefix = "Â§8[Â§aLotteryÂ§8] Â§7";
+	public String _prefix = "§8[§aLottery§8] §7";
 	
 	public HashMap<Player, Menu> _invs = new HashMap<Player, Menu>();
 	
@@ -43,7 +44,7 @@ public class Lottery  extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		CommandSender s = Bukkit.getConsoleSender();
-		send(s, "           Â§aLottery Â§7" + getDescription().getVersion() + "           ");
+		send(s, "           §aLottery §7" + getDescription().getVersion() + "           ");
 		send(s, "");
 		send(s, " - Creating istance...");
 		_lottery = this;
@@ -62,9 +63,21 @@ public class Lottery  extends JavaPlugin {
 		_prefix = ChatColor.translateAlternateColorCodes('&', _config.getString("message.prefix"));
 		send(s, " - Succesfully get prefix from config");
 		send(s, "");
+		send(s, " - Registering placeholders...");
+		Integer placeholders = 0;
+		if (Bukkit.getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+			new MVdWPlaceholder(this).start();
+			placeholders += 1;
+		}
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+			new Placeholder(this).register();
+			placeholders += 1;
+		}
+		send(s, " - Succesfulled registered " + placeholders + "/2 placeholders");
+		send(s, "");
 		send(s, " - Getting type of database from config...");
 		if (_config.getString("database.type").equalsIgnoreCase("sql")) {
-			sql = true;
+			_sql = true;
 			_db = new Database();
 			_db.open();
 			_db.query("CREATE TABLE IF NOT EXISTS `lottery_keys` (`username` varchar(50) NOT NULL, `keys` int(6) not null, UNIQUE KEY `username` (`username`) ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
@@ -89,7 +102,7 @@ public class Lottery  extends JavaPlugin {
 		}.runTaskTimer(this, 1L, 1L);
 		send(s, " - Succesfully created schedulers");
 		send(s, "");
-		send(s, " Â§a- Succesfully enabled Lottery");
+		send(s, " §a- Succesfully enabled Lottery");
 		send(s, "");
 	}
 	

@@ -23,9 +23,10 @@ public class Listeners implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
-		if (!_lottery._db.isInSystem(p.getName())) {
-			_lottery._db.create(p.getName());
-		}
+		if (_lottery._sql)
+			if (!_lottery._db.isInSystem(p.getName())) {
+				_lottery._db.create(p.getName());
+			}
 	}
 	
 	@EventHandler

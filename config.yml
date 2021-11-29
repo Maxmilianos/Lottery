@@ -7,7 +7,17 @@ database:
     database: database
 settings:
   time-to-kick: 30
+  sound:
+    enable: false
+    type: ARROW_HIT
+    float1: '5.0F'
+    float2: '0.3F'
 message:
   prefix: '&8[&aLottery&8] &7'
+  prize: '&ePrize'
   inventory:
     name: '&aLottery'
+  command:
+    lottery: '&7Keys: &a@KEYS@'
+    actual-keys: '&7Actual keys: &a@KEYS@'
+    no-have-keys: '&7You don''t have any keys for lottery.'

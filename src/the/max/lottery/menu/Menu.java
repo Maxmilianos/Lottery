@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import the.max.lottery.Lottery;
 import the.max.lottery.checker.Checker;
+import the.max.lottery.config.Config;
 import the.max.lottery.random.RandomCollection;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -53,7 +55,7 @@ public class Menu {
 		_checker = new Checker();
 		_step = 0;
 		_close = false;
-		_inv.setItem(4, get("§ePrize", Material.REDSTONE_TORCH_ON, 1, (byte)0));
+		_inv.setItem(4, get(Lottery.getLottery()._config.getString("message.prize"), Material.REDSTONE_TORCH_ON, 1, (byte)0));
 		_inv.setItem(10, (ItemStack)_rewards.next());
 		_inv.setItem(11, (ItemStack)_rewards.next());
 		_inv.setItem(12, (ItemStack)_rewards.next());
@@ -61,7 +63,7 @@ public class Menu {
 		_inv.setItem(14, (ItemStack)_rewards.next());
 		_inv.setItem(15, (ItemStack)_rewards.next());
 		_inv.setItem(16, (ItemStack)_rewards.next());
-		_inv.setItem(22, get("§ePrize", Material.REDSTONE_TORCH_ON, 1, (byte)0));
+		_inv.setItem(22, get(Lottery.getLottery()._config.getString("message.prize"), Material.REDSTONE_TORCH_ON, 1, (byte)0));
 	}
 	
 	public Inventory getInventory() {
@@ -92,6 +94,9 @@ public class Menu {
 				    }
 					_inv.setItem(16, (ItemStack)_rewards.next());
 				}
+				Config c = Lottery.getLottery()._config;
+				if (c.getBoolean("settings.sound.enable"))
+					_owner.playSound(_owner.getLocation(), Sound.valueOf(c.getString("settings.sound.type")), Float.valueOf(c.getString("settings.sound.float1")), Float.valueOf(c.getString("settings.sound.float2")));
 			} else if (time >= 6500L) {
 				_inv.setItem(10, new ItemStack(Material.AIR));
 				_inv.setItem(11, new ItemStack(Material.AIR));
@@ -113,7 +118,7 @@ public class Menu {
 					for (String s : config.getStringList("lore")) {
 						lore.add(ChatColor.translateAlternateColorCodes('&', s));
 					}
-					if (m == Material.valueOf(config.getString("material")) && displayname.equalsIgnoreCase(config.getString("display-name")) && im.getLore().equals(lore)) {
+					if (m == Material.valueOf(config.getString("material")) && displayname.equalsIgnoreCase(config.getString("display-name"))) {
 						for (String cmd : config.getStringList("commands")) {
 							cmd = cmd.replace("%playername%", _owner.getName());
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd);
@@ -165,7 +170,7 @@ public class Menu {
 	private ItemStack get(String name, Material material, Integer number, byte byt){
 		ItemStack it=new ItemStack(material, number, byt);
 		ItemMeta im=it.getItemMeta();
-		im.setDisplayName(name);
+		im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
 		it.setItemMeta(im);
 		return it;
 	}

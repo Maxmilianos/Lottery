@@ -5,7 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import net.md_5.bungee.api.ChatColor;
 import the.max.lottery.Lottery;
+import the.max.lottery.config.Config;
 import the.max.lottery.menu.Menu;
 
 public class Commands implements CommandExecutor {
@@ -21,7 +23,7 @@ public class Commands implements CommandExecutor {
 			if (args.length == 0) {
 				if (s instanceof Player) {
 					Player p = (Player) s;
-					_lottery.send(p, "Keys: ยงa" + _lottery.getAPI().getKeys(p.getName()));
+					_lottery.send(s, ChatColor.translateAlternateColorCodes('&', _lottery._config.getString("message.command.lottery").replace("@KEYS@", "" + _lottery.getAPI().getKeys(p.getName()))));
 				} else {
 					_lottery.send(s, "/lottery set <Name> <To>");
 					_lottery.send(s, "/lottery add <Name> <To>");
@@ -44,9 +46,9 @@ public class Commands implements CommandExecutor {
 					}
 				} else if (args[0].equalsIgnoreCase("reload") && s.hasPermission("lottery.commands.reload")) {
 					if (args.length == 1) {
-						_lottery._config.reload();
-						_lottery._players.reload();
-						_lottery._rewards.reload();
+						_lottery._config = new Config(_lottery, "config.yml", "config.yml");
+						_lottery._rewards = new Config(_lottery, "rewards.yml", "rewards.yml");
+						_lottery._players = new Config(_lottery, "players.yml");
 					} else {
 						_lottery.send(s, "/lottery reload");
 					}
@@ -56,9 +58,9 @@ public class Commands implements CommandExecutor {
 						if (isInteger(args[2])) {
 							Integer to = Integer.valueOf(args[2]);
 							_lottery.getAPI().setKeys(name, to);
-							_lottery.send(s, "You set ยงa" + to + "ยง7 Lottery keys to ยงa" + name + "ยง7.");
+							_lottery.send(s, "You set งa" + to + "ง7 Lottery keys to งa" + name + "ง7.");
 						} else {
-							_lottery.send(s, "/lottery set <Name> ยงa<To>");
+							_lottery.send(s, "/lottery set <Name> งa<To>");
 							_lottery.send(s, "To must be integer!");
 						}
 					} else {
@@ -70,9 +72,9 @@ public class Commands implements CommandExecutor {
 						if (isInteger(args[2])) {
 							Integer to = Integer.valueOf(args[2]);
 							_lottery.getAPI().addKeys(name, to);
-							_lottery.send(s, "You added ยงa" + to + "ยง7 Lottery keys to ยงa" + name + "ยง7.");
+							_lottery.send(s, "You added งa" + to + "ง7 Lottery keys to งa" + name + "ง7.");
 						} else {
-							_lottery.send(s, "/lottery add <Name> ยงa<To>");
+							_lottery.send(s, "/lottery add <Name> งa<To>");
 							_lottery.send(s, "To must be integer!");
 						}
 					} else {
@@ -84,9 +86,9 @@ public class Commands implements CommandExecutor {
 						if (isInteger(args[2])) {
 							Integer to = Integer.valueOf(args[2]);
 							_lottery.getAPI().removeKeys(name, to);
-							_lottery.send(s, "You removed ยงa" + to + "ยง7 Lottery keys to ยงa" + name + "ยง7.");
+							_lottery.send(s, "You removed งa" + to + "ง7 Lottery keys to งa" + name + "ง7.");
 						} else {
-							_lottery.send(s, "/lottery remove <Name> ยงa<To>");
+							_lottery.send(s, "/lottery remove <Name> งa<To>");
 							_lottery.send(s, "To must be integer!");
 						}
 					} else {
@@ -98,9 +100,9 @@ public class Commands implements CommandExecutor {
 						if (_lottery.getAPI().getKeys(p.getName()) >= 1) {
 							_lottery.getAPI().openLottery(p);
 							_lottery.getAPI().removeKeys(p.getName(), 1);
-							_lottery.send(p, "Actual keys: ยงa" + _lottery.getAPI().getKeys(p.getName()));
+							_lottery.send(s, ChatColor.translateAlternateColorCodes('&', _lottery._config.getString("message.command.actual-keys").replace("@KEYS@", "" + _lottery.getAPI().getKeys(p.getName()))));
 						} else {
-							_lottery.send(p, "You don't have any keys for Lottery.");
+							_lottery.send(s, ChatColor.translateAlternateColorCodes('&', _lottery._config.getString("message.command.no-have-keys").replace("@KEYS@", "" + _lottery.getAPI().getKeys(p.getName()))));
 						}
 					} else {
 						_lottery.send(s, "/lottery set <Name> <To>");
@@ -113,7 +115,7 @@ public class Commands implements CommandExecutor {
 				} else {
 					if (s instanceof Player) {
 						Player p = (Player) s;
-						_lottery.send(p, "Keys: ยงa" + _lottery.getAPI().getKeys(p.getName()));
+						_lottery.send(s, ChatColor.translateAlternateColorCodes('&', _lottery._config.getString("message.command.lottery").replace("@KEYS@", "" + _lottery.getAPI().getKeys(p.getName()))));
 					} else {
 						_lottery.send(s, "/lottery set <Name> <To>");
 						_lottery.send(s, "/lottery add <Name> <To>");

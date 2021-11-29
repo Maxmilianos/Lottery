@@ -18,7 +18,7 @@ public class LotteryAPI {
 	
 	public Boolean isInSystem(String name) {
 		Boolean is = false;
-		if (_lottery.sql) {
+		if (_lottery._sql) {
 			is = _lottery._db.isInSystem(name);
 		} else {
 			is = _lottery._players.contains(name);
@@ -28,7 +28,7 @@ public class LotteryAPI {
 	
 	public Integer getKeys(String name) {
 		Integer keys = 0;
-		if (_lottery.sql) {
+		if (_lottery._sql) {
 			keys = _lottery._db.getKeys(name);
 		} else {
 			keys = _lottery._players.getInt(name + ".keys");
@@ -37,7 +37,7 @@ public class LotteryAPI {
 	}
 	
 	public void setKeys(String name, Integer to) {
-		if (_lottery.sql) {
+		if (_lottery._sql) {
 			_lottery._db.set(name, to);
 		} else {
 			_lottery._players.set(name + ".keys", to);
